@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Zoro| Luxury Timepieces</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <span class="text-gold">&</span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Collection</a>
+                    <a href="about.html">Our Story</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="account.html" class="nav-icon-btn" title="My Account"
+                        style="display:inline-block; border:none; background:none; text-decoration:none;">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button id="wishlist-btn" class="nav-icon-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </button>
+                    <button id="cart-btn" class="nav-icon-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1 class="heading-xl">Timeless <span class="text-gold">Elegance</span> <br> for the Modern Era.</h1>
+                <p class="text-body" style="font-size: 1.1rem; max-width: 400px;">
+                    Discover our exclusive collection of premium and affordable timepieces, crafted for those who value
+                    precision and style.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <a href="products.html" class="btn btn-primary" style="margin-right: 1rem;">Shop Now</a>
+                    <a href="products.html" class="btn btn-outline">View Collection</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section style="padding: var(--spacing-xl) 0; background-color: var(--bg-secondary);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+                <h2 class="heading-lg">Featured Timepieces</h2>
+                <div style="width: 60px; height: 3px; background-color: var(--accent-gold); margin: 1rem auto;"></div>
+            </div>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-md);">
+
+                <!-- Card 1 -->
+                <div class="product-card"
+                    style="background: var(--bg-primary); padding: var(--spacing-md); transition: var(--transition-standard); position: relative;">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                    <div
+                        style="height: 300px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #222; margin-bottom: 1.5rem;">
+                        <img src="assets/images/watch1.png" alt="Midnight Chronograph"
+                            style="max-height: 90%; transition: transform 0.5s ease;">
+                    </div>
+                    <div style="text-align: center;">
+                        <span
+                            style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Premium
+                            Series</span>
+                        <h3 class="heading-md" style="margin-top: 0.5rem;">Midnight Chronograph</h3>
+                        <p class="text-gold" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem;">₹ 24,999
+                        </p>
+                        <button class="btn btn-primary add-to-cart-btn"
+                            style="padding: 0.8rem 2rem; font-size: 0.8rem;">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="product-card"
+                    style="background: var(--bg-primary); padding: var(--spacing-md); transition: var(--transition-standard); position: relative;">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                    <div
+                        style="height: 300px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #222; margin-bottom: 1.5rem;">
+                        <img src="assets/images/watch2.png" alt="Royal Merit"
+                            style="max-height: 90%; transition: transform 0.5s ease;">
+                    </div>
+                    <div style="text-align: center;">
+                        <span
+                            style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Classic
+                            Series</span>
+                        <h3 class="heading-md" style="margin-top: 0.5rem;">Royal Merit</h3>
+                        <p class="text-gold" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem;">₹ 18,500
+                        </p>
+                        <button class="btn btn-primary add-to-cart-btn"
+                            style="padding: 0.8rem 2rem; font-size: 0.8rem;">Add to Cart</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="text-align: center; margin-top: var(--spacing-lg);">
+                <a href="products.html" class="btn btn-primary">View All Watches</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background-color: #000; padding: var(--spacing-xl) 0 var(--spacing-md);">
+        <div class="container">
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                <div style="flex: 1; min-width: 250px;">
+                    <h3 class="heading-md">ZORO <span class="text-gold"></span>
+                        <p class="text-body">Elevating your style with timeless precision. Designed for the modern
+                            professional.</p>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main);">Quick Links</h4>
+                    <ul style="color: var(--text-secondary);">
+                        <li style="margin-bottom: 0.5rem;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="products.html">Collection</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="about.html">About Us</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main);">Contact</h4>
+                    <p class="text-body">123 Luxury Ave, Business District<br>Banglore, KA 560001</p>
+                    <p class="text-body">zoro@gmail.com<br>+91 98765 43210</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="#" style="color: var(--text-main); margin-right: 1rem;"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: var(--text-main); margin-right: 1rem;"><i
+                                class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: var(--text-main);"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid #333; padding-top: var(--spacing-md); text-align: center; color: #666; font-size: 0.9rem;">
+                &copy; 2025 Zoro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

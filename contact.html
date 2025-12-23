@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | ZORO </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: #222;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html">ZORO</a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Collection</a>
+                    <a href="about.html">Our Story</a>
+                    <a href="contact.html" class="active" style="color: var(--accent-gold);">Contact</a>
+                    <a href="account.html" class="nav-icon-btn" title="My Account"
+                        style="display:inline-block; border:none; background:none; text-decoration:none;">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button id="wishlist-btn" class="nav-icon-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </button>
+                    <button id="cart-btn" class="nav-icon-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div style="padding-top: 120px; padding-bottom: var(--spacing-xl);">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-xl);">
+
+                <div>
+                    <h1 class="heading-lg">Get in Touch</h1>
+                    <p class="text-body" style="margin-bottom: var(--spacing-md);">
+                        We are here to assist you with any inquiries regarding our timepieces, services, or
+                        partnerships.
+                    </p>
+
+                    <div style="margin-bottom: var(--spacing-md);">
+                        <h3 class="heading-md">Visit Us</h3>
+                        <p class="text-body">123 Luxury Ave, Business District<br>Banglore, KA 560001, India</p>
+                    </div>
+
+                    <div style="margin-bottom: var(--spacing-md);">
+                        <h3 class="heading-md">Contact</h3>
+                        <p class="text-body">
+                            Email: zoro@gmail.com<br>
+                            Phone: +91 98765 43210
+                        </p>
+                    </div>
+
+                    <div>
+                        <a href="#" style="color: var(--text-main); margin-right: 1.5rem; font-size: 1.5rem;"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: var(--text-main); margin-right: 1.5rem; font-size: 1.5rem;"><i
+                                class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: var(--text-main); font-size: 1.5rem;"><i
+                                class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <div
+                    style="background: var(--bg-secondary); padding: var(--spacing-md); border: 1px solid var(--border-color);">
+                    <form action="#">
+                        <div class="form-group">
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Email</label>
+                            <input type="email" class="form-control" placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Message</label>
+                            <textarea class="form-control" rows="5" placeholder="How can we help you?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+        style="background-color: #000; padding: var(--spacing-xl) 0 var(--spacing-md); margin-top: var(--spacing-xl);">
+        <div class="container">
+            <div style="text-align: center; color: #666; font-size: 0.9rem;">
+                &copy; 2025 Zoro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

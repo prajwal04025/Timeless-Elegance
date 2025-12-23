@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection | ZORO </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            margin: 0 0.5rem;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border-color: var(--accent-gold);
+        }
+
+        .product-item {
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html">ZORO</a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html" class="active" style="color: var(--accent-gold);">Collection</a>
+                    <a href="about.html">Our Story</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="account.html" class="nav-icon-btn" title="My Account"
+                        style="display:inline-block; border:none; background:none; text-decoration:none;">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button id="wishlist-btn" class="nav-icon-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </button>
+                    <button id="cart-btn" class="nav-icon-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div style="padding-top: 120px; padding-bottom: var(--spacing-xl);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+                <h1 class="heading-lg">The Collection</h1>
+                <div style="margin-top: 2rem;">
+                    <div
+                        style="margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; align-items: center;">
+                        <div>
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="premium">Premium</button>
+                            <button class="filter-btn" data-filter="budget">Everyday</button>
+                            <button class="filter-btn" data-filter="new-arrival">New Arrival</button>
+                        </div>
+                        <select id="sort-select"
+                            style="padding: 0.5rem 1rem; background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); cursor: pointer;">
+                            <option value="relevance">Relevance</option>
+                            <option value="discount">Discount</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="newest">What's New</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Ratings</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid" id="product-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--spacing-md);">
+                    <!-- Products will be injected via JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer
+            style="background-color: #000; padding: var(--spacing-xl) 0 var(--spacing-md); margin-top: var(--spacing-xl);">
+            <div class="container">
+                <div style="text-align: center; color: #666; font-size: 0.9rem;">
+                    &copy; 2025 Zoro . All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+        <script src="script.js"></script>
+</body>
+
+</html>

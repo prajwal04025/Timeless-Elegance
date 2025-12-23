@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Zoro Luxury Timepieces</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .account-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .account-sidebar {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border: 1px solid #333;
+            height: fit-content;
+        }
+
+        .account-nav-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            text-align: left;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: inherit;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            transition: var(--transition-standard);
+        }
+
+        .account-nav-btn:hover,
+        .account-nav-btn.active {
+            color: var(--accent-gold);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .account-nav-btn i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .account-content {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border: 1px solid #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: #000;
+            border: 1px solid #333;
+            color: var(--text-main);
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .address-card {
+            border: 1px solid #333;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .address-card.default {
+            border-color: var(--accent-gold);
+        }
+
+        .badge-default {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-gold);
+            color: #000;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .account-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <span class="text-gold">&</span>
+                </div>
+                <!-- Note: Logo text seems missing in original index.html or just '&', keeping consistent -->
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Collection</a>
+                    <a href="about.html">Our Story</a>
+                    <a href="contact.html">Contact</a>
+                    <button class="nav-icon-btn active" title="My Account">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button id="wishlist-btn" class="nav-icon-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </button>
+                    <button id="cart-btn" class="nav-icon-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div style="background-color: #000; height: 80px;"></div> <!-- Spacer -->
+
+    <section class="account-container">
+        <aside class="account-sidebar">
+            <button class="account-nav-btn active" onclick="switchTab('profile')">
+                <i class="fas fa-user-circle"></i> Profile
+            </button>
+            <button class="account-nav-btn" onclick="switchTab('addresses')">
+                <i class="fas fa-map-marker-alt"></i> Addresses
+            </button>
+            <button class="account-nav-btn" onclick="switchTab('orders')">
+                <i class="fas fa-shopping-bag"></i> Orders
+            </button>
+            <button class="account-nav-btn" onclick="switchTab('wallet')">
+                <i class="fas fa-wallet"></i> Wallet
+            </button>
+        </aside>
+
+        <main class="account-content">
+            <!-- Profile Tab -->
+            <div id="tab-profile">
+                <div class="section-header">
+                    <h2 class="heading-md">Personal Details</h2>
+                </div>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="profile-name" class="form-input" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="profile-email" class="form-input" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="profile-phone" class="form-input" placeholder="Enter your phone number">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+
+            <!-- Addresses Tab -->
+            <div id="tab-addresses" style="display: none;">
+                <div class="section-header">
+                    <h2 class="heading-md">My Addresses</h2>
+                </div>
+
+                <div id="address-list">
+                    <!-- Address cards injected here -->
+                </div>
+
+                <button class="btn btn-outline" onclick="toggleAddressForm()" style="margin-top: 1rem;">
+                    <i class="fas fa-plus"></i> Add New Address
+                </button>
+
+                <div id="new-address-form"
+                    style="display: none; margin-top: 2rem; border-top: 1px solid #333; padding-top: 1rem;">
+                    <h3 class="heading-md" style="font-size: 1.2rem; margin-bottom: 1rem;">New Address</h3>
+                    <form id="address-form">
+                        <div class="form-group">
+                            <label class="form-label">Address Label (e.g. Home, Work)</label>
+                            <input type="text" id="addr-label" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Full Address</label>
+                            <textarea id="addr-text" class="form-input" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group" style="display: flex; gap: 1rem;">
+                            <button type="button" class="btn btn-outline" onclick="getLocation()"
+                                title="Use Current Location">
+                                <i class="fas fa-location-arrow"></i> Locate Me
+                            </button>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Address</button>
+                        <button type="button" class="btn btn-outline" onclick="toggleAddressForm()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="tab-orders" style="display: none;">
+                <div class="section-header">
+                    <h2 class="heading-md">Order History</h2>
+                </div>
+                <p class="text-body">You haven't placed any orders yet.</p>
+            </div>
+
+            <!-- Wallet Tab -->
+            <div id="tab-wallet" style="display: none;">
+                <div class="section-header">
+                    <h2 class="heading-md">My Wallet</h2>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); padding: 2rem; border: 1px solid var(--accent-gold); border-radius: 8px; margin-bottom: 2rem; text-align: center;">
+                    <p
+                        style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
+                        Current Balance</p>
+                    <h2 id="wallet-balance" class="heading-xl" style="color: var(--accent-gold); margin: 0;">₹ 0</h2>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 class="heading-md" style="font-size: 1.2rem; margin-bottom: 1rem;">Add Funds</h3>
+                    <form id="add-funds-form" style="display: flex; gap: 1rem; align-items: flex-end;">
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label class="form-label">Amount (₹)</label>
+                            <input type="number" id="fund-amount" class="form-input" min="1" placeholder="Enter amount"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="height: 45px;">Add Money</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3 class="heading-md" style="font-size: 1.2rem; margin-bottom: 1rem;">Recent Transactions</h3>
+                    <ul id="wallet-history" style="list-style: none; padding: 0; color: var(--text-secondary);">
+                        <!-- Transactions go here -->
+                        <li
+                            style="padding: 1rem; border-bottom: 1px solid #333; display: flex; justify-content: space-between;">
+                            <span>Wallet Created</span>
+                            <span class="text-gold">+ ₹ 0</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background-color: #000; padding: var(--spacing-xl) 0 var(--spacing-md); margin-top: auto;">
+        <div class="container">
+            <div
+                style="border-top: 1px solid #333; padding-top: var(--spacing-md); text-align: center; color: #666; font-size: 0.9rem;">
+                &copy; 2025 Zoro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline script for page-specific UI toggles
+        function switchTab(tabName) {
+            document.querySelectorAll('.account-content > div').forEach(div => div.style.display = 'none');
+            document.getElementById('tab-' + tabName).style.display = 'block';
+
+            document.querySelectorAll('.account-nav-btn').forEach(btn => btn.classList.remove('active'));
+            // This is a bit rough, but simple loop to find the button
+            const iconMap = {
+                'profile': 'fa-user-circle',
+                'addresses': 'fa-map-marker-alt',
+                'orders': 'fa-shopping-bag',
+                'wallet': 'fa-wallet'
+            };
+            // Re-highlighting simplified
+            document.querySelectorAll('.account-nav-btn').forEach(btn => {
+                if (btn.innerHTML.includes(iconMap[tabName])) btn.classList.add('active');
+            });
+        }
+
+        function toggleAddressForm() {
+            const form = document.getElementById('new-address-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Geolocation Logic
+        function getLocation() {
+            if (navigator.geolocation) {
+                const btn = document.querySelector('button[onclick="getLocation()"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating...';
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        // In a real app, we'd use a reverse geocoding API here.
+                        // For this demo, we'll just put the coords.
+                        document.getElementById('addr-text').value = `Current Location\nLat: ${latitude.toFixed(6)}\nLong: ${longitude.toFixed(6)}`;
+                        btn.innerHTML = originalText;
+                    },
+                    (error) => {
+                        alert('Unable to retrieve your location. Please enter manually.');
+                        btn.innerHTML = originalText;
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+</body>
+
+</html>
