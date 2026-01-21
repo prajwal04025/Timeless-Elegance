@@ -13,84 +13,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .account-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: var(--spacing-xl) 2rem;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 2rem;
-        }
-
-        .account-sidebar {
-            background: var(--bg-primary);
-            padding: 1.5rem;
-            border: 1px solid #333;
-            height: fit-content;
-        }
-
-        .account-nav-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            text-align: left;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-family: inherit;
-            cursor: pointer;
-            border-bottom: 1px solid #333;
-            transition: var(--transition-standard);
-        }
-
-        .account-nav-btn:hover,
-        .account-nav-btn.active {
-            color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .account-nav-btn i {
-            margin-right: 0.5rem;
-            width: 20px;
-        }
-
-        .account-content {
-            background: var(--bg-primary);
-            padding: 2rem;
-            border: 1px solid #333;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.8rem;
-            background: #000;
-            border: 1px solid #333;
-            color: var(--text-main);
-            font-family: inherit;
-        }
-
-        .form-input:focus {
-            border-color: var(--accent-gold);
-            outline: none;
-        }
-
-        .section-header {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #333;
-            padding-bottom: 1rem;
-        }
-
+        /* Styles moved to style.css */
         .address-card {
             border: 1px solid #333;
             padding: 1rem;
@@ -171,6 +94,10 @@
             <button class="account-nav-btn" onclick="switchTab('wallet')">
                 <i class="fas fa-wallet"></i> Wallet
             </button>
+            <button class="account-nav-btn" id="logout-btn"
+                style="color: #ff4444; border-top: 1px solid #333; margin-top: 1rem;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </aside>
 
         <main class="account-content">
@@ -179,6 +106,27 @@
                 <div class="section-header">
                     <h2 class="heading-md">Personal Details</h2>
                 </div>
+
+                <!-- Saved Details Display -->
+                <div id="profile-display"
+                    style="background: var(--bg-secondary); padding: 1.5rem; border: 1px solid #333; margin-bottom: 2rem; display: none;">
+                    <div style="display: grid; gap: 1rem;">
+                        <div>
+                            <span class="text-secondary" style="font-size: 0.9rem;">Full Name</span>
+                            <div id="display-name" style="font-size: 1.1rem; color: var(--text-main);">--</div>
+                        </div>
+                        <div>
+                            <span class="text-secondary" style="font-size: 0.9rem;">Email Address</span>
+                            <div id="display-email" style="font-size: 1.1rem; color: var(--text-main);">--</div>
+                        </div>
+                        <div>
+                            <span class="text-secondary" style="font-size: 0.9rem;">Phone Number</span>
+                            <div id="display-phone" style="font-size: 1.1rem; color: var(--text-main);">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="heading-md" style="font-size: 1.2rem; margin-bottom: 1rem;">Update Details</h3>
                 <form id="profile-form">
                     <div class="form-group">
                         <label class="form-label">Full Name</label>
@@ -278,6 +226,176 @@
                             <span class="text-gold">+ ₹ 0</span>
                         </li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- Cart Tab -->
+            <div id="tab-cart" style="display: none;">
+                <div class="section-header">
+                    <h2 class="heading-md">My Cart</h2>
+                </div>
+                <div id="account-cart-container" class="order-list">
+                    <!-- Cart items injected here -->
+                    <p class="text-body">Your cart is empty.</p>
+                </div>
+                <div class="cart-footer" id="account-cart-footer"
+                    style="padding: 2rem 0; border-top: 1px solid #333; margin-top: 2rem; display:none;">
+                    <div
+                        style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.2rem; font-weight: bold;">
+                        <span>Total:</span>
+                        <span id="account-cart-total" class="text-gold">₹ 0</span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;"
+                        onclick="window.location.href='account.html?tab=checkout'">Preceed to Checkout</button>
+                </div>
+            </div>
+
+            <!-- Wishlist Tab -->
+            <div id="tab-wishlist" style="display: none;">
+                <div class="section-header">
+                    <h2 class="heading-md">My Wishlist</h2>
+                </div>
+                <div id="account-wishlist-container" class="order-list">
+                    <!-- Wishlist items injected here -->
+                    <p class="text-body">Your wishlist is empty.</p>
+                </div>
+            </div>
+
+            <!-- Checkout Tab (Hidden by default, accessed via Order Now) -->
+            <div id="tab-checkout" style="display: none;">
+                <div class="section-header">
+                    <h2 class="heading-md">Finalize Your Order</h2>
+                </div>
+
+                <div style="display: grid; gap: 2rem;">
+                    <!-- Order Items Summary -->
+                    <div>
+                        <h3 class="heading-md" style="font-size: 1.2rem;">Order Summary</h3>
+                        <div id="checkout-items-container"
+                            style="background: var(--bg-secondary); padding: 1rem; border: 1px solid #333; margin-top: 1rem;">
+                            <!-- Items injected here -->
+                            <p class="text-body">Your cart is empty.</p>
+                        </div>
+                        <div style="text-align: right; margin-top: 1rem; font-size: 1.2rem; font-weight: bold;">
+                            Total: <span id="checkout-total" class="text-gold">₹ 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Address Confirm -->
+                    <div>
+                        <h3 class="heading-md" style="font-size: 1.2rem;">Shipping Address</h3>
+                        <div id="checkout-address"
+                            style="background: var(--bg-secondary); padding: 1rem; border: 1px solid #333; margin-top: 1rem;">
+                            <!-- Address injected here -->
+                            <p class="text-body">No address selected.</p>
+                        </div>
+                        <button class="btn btn-outline" style="margin-top:0.5rem; font-size: 0.8rem;"
+                            onclick="switchTab('addresses')">Change Address</button>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div>
+                        <h3 class="heading-md" style="font-size: 1.2rem;">Payment Method</h3>
+                        <div id="payment-options"
+                            style="background: var(--bg-secondary); padding: 1rem; border: 1px solid #333; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem;">
+
+                            <!-- Wallet Option -->
+                            <label class="payment-option-row"
+                                style="display: flex; align-items: center; padding: 0.8rem; border: 1px solid #444; border-radius: 4px; cursor: pointer; transition: all 0.2s;">
+                                <input type="radio" name="payment_method" value="wallet" style="margin-right: 1rem;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: bold; color: var(--accent-gold);"><i class="fas fa-wallet"
+                                            style="margin-right:0.5rem;"></i> Zoro Wallet</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Balance: <span
+                                            id="checkout-wallet-balance">--</span></div>
+                                </div>
+                            </label>
+
+                            <!-- Card Option -->
+                            <label class="payment-option-row"
+                                style="display: flex; align-items: center; padding: 0.8rem; border: 1px solid #444; border-radius: 4px; cursor: pointer;">
+                                <input type="radio" name="payment_method" value="card" style="margin-right: 1rem;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: bold; color: var(--text-main);"><i
+                                            class="far fa-credit-card" style="margin-right:0.5rem;"></i> Credit/Debit
+                                        Card</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Visa, Mastercard,
+                                        Amex</div>
+                                </div>
+                            </label>
+
+                            <!-- UPI Option -->
+                            <label class="payment-option-row"
+                                style="display: flex; align-items: center; padding: 0.8rem; border: 1px solid #444; border-radius: 4px; cursor: pointer;">
+                                <input type="radio" name="payment_method" value="upi" style="margin-right: 1rem;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: bold; color: var(--text-main);"><i
+                                            class="fas fa-mobile-alt" style="margin-right:0.5rem;"></i> UPI</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Google Pay, PhonePe,
+                                        Paytm</div>
+                                </div>
+                            </label>
+
+                            <!-- COD Option -->
+                            <label class="payment-option-row"
+                                style="display: flex; align-items: center; padding: 0.8rem; border: 1px solid #444; border-radius: 4px; cursor: pointer;">
+                                <input type="radio" name="payment_method" value="cod" style="margin-right: 1rem;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: bold; color: var(--text-main);"><i
+                                            class="fas fa-money-bill-wave" style="margin-right:0.5rem;"></i> Cash on
+                                        Delivery</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Pay when you receive
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="margin-top: 1rem; border-top: 1px solid #333; padding-top: 2rem;">
+                        <button id="confirm-order-btn" class="btn btn-primary"
+                            style="width: 100%; padding: 1.2rem;">Confirm & Pay</button>
+                        <p class="text-secondary" style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                            By confirming, you agree to our Terms of Service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Cancellation Modal -->
+            <div id="cancel-modal" class="modal-overlay"
+                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+                <div class="modal-content"
+                    style="background: var(--bg-secondary); padding: 2rem; border: 1px solid var(--accent-gold); max-width: 400px; width: 90%; position: relative;">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <h3 class="heading-md">Cancel Order</h3>
+                    </div>
+
+                    <form id="cancel-form">
+                        <div class="form-group">
+                            <label class="form-label">Reason for Cancellation</label>
+                            <select id="cancel-reason" class="form-input" required>
+                                <option value="" disabled selected>Select a reason</option>
+                                <option value="Found a better price">Found a better price</option>
+                                <option value="Ordered by mistake">Ordered by mistake</option>
+                                <option value="Shipping time too long">Shipping time too long</option>
+                                <option value="Change of mind">Change of mind</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Additional Comments (Optional)</label>
+                            <textarea id="cancel-comments" class="form-input" rows="3"
+                                placeholder="Tell us more..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="button" class="btn btn-outline" style="flex: 1;"
+                                onclick="closeCancelModal()">Start Over</button>
+                            <button type="submit" class="btn btn-primary"
+                                style="flex: 1; background-color: #ff4444; border-color: #ff4444;">Confirm
+                                Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>

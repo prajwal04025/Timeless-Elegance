@@ -1,0 +1,375 @@
+[
+    {
+        "id": 1,
+        "name": "Midnight Chronograph",
+        "category": "premium",
+        "price": 24999,
+        "image": "assets/images/watch1.png",
+        "style": "",
+        "description": "A sophisticated chronograph for the modern night.",
+        "details": {
+            "Material": "Stainless Steel, Sapphire Crystal",
+            "Usage": "Formal, Evening Wear",
+            "WaterResistance": "50m",
+            "Features": "Chronograph, Date Display, Luminous Hands"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Royal Merit",
+        "category": "premium",
+        "price": 18500,
+        "image": "assets/images/watch2.png",
+        "style": "",
+        "description": "Regal elegance in every tick.",
+        "details": {
+            "Material": "Gold Plated Steel, Leather Strap",
+            "Usage": "Business, Formal",
+            "WaterResistance": "30m",
+            "Features": "Minimalist Dial, Gold Indices"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Urban Daily",
+        "category": "budget",
+        "price": 4999,
+        "image": "assets/images/watch1.png",
+        "style": "filter: grayscale(100%);",
+        "description": "Perfect for your daily commute.",
+        "details": {
+            "Material": "Alloy Case, Nylon Strap",
+            "Usage": "Casual, Daily Wear",
+            "WaterResistance": "Splash Resistant",
+            "Features": "Lightweight, Durable"
+        }
+    },
+    {
+        "id": 4,
+        "name": "Classic Minimalist",
+        "category": "budget",
+        "price": 6500,
+        "image": "assets/images/watch2.png",
+        "style": "filter: sepia(50%);",
+        "description": "Less is more.",
+        "details": {
+            "Material": "Stainless Steel Case, Leather Strap",
+            "Usage": "Office, Casual",
+            "WaterResistance": "30m",
+            "Features": "Clean Dial, Slim Profile"
+        }
+    },
+    {
+        "id": 5,
+        "name": "Celestial Voyager",
+        "category": "premium",
+        "price": 45000,
+        "image": "assets/images/watch3.png",
+        "style": "",
+        "isNew": true,
+        "description": "Navigate the stars.",
+        "details": {
+            "Material": "Titanium, Ceramic Bezel",
+            "Usage": "Travel, Adventure",
+            "WaterResistance": "100m",
+            "Features": "GMT Function, Super-LumiNova"
+        }
+    },
+    {
+        "id": 6,
+        "name": "Grand Master",
+        "category": "premium",
+        "price": 32000,
+        "image": "assets/images/watch4.png",
+        "style": "",
+        "isNew": true,
+        "description": "Command respect.",
+        "details": {
+            "Material": "316L Stainless Steel",
+            "Usage": "Executive, Formal",
+            "WaterResistance": "50m",
+            "Features": "Automatic Movement, Power Reserve Indicator"
+        }
+    },
+    {
+        "id": 7,
+        "name": "Urban Scout",
+        "category": "budget",
+        "price": 3500,
+        "image": "assets/images/watch1.png",
+        "style": "filter: grayscale(100%) contrast(120%);",
+        "isNew": true,
+        "description": "Ready for adventure.",
+        "details": {
+            "Material": "Polycarbonate, Silicone Strap",
+            "Usage": "Outdoor, Sports",
+            "WaterResistance": "50m",
+            "Features": "Shock Resistant, Compass Bezel"
+        }
+    },
+    {
+        "id": 8,
+        "name": "Metro Classic",
+        "category": "budget",
+        "price": 5500,
+        "image": "assets/images/watch2.png",
+        "style": "filter: sepia(30%) brightness(90%);",
+        "isNew": true,
+        "description": "City style defined.",
+        "details": {
+            "Material": "Brass Case, Faux Leather",
+            "Usage": "Casual, Weekend",
+            "WaterResistance": "Splash Resistant",
+            "Features": "Vintage Look, Roman Numerals"
+        }
+    },
+    {
+        "id": 9,
+        "name": "Abyss Diver",
+        "category": "premium",
+        "price": 28000,
+        "image": "assets/images/watch3.png",
+        "style": "filter: hue-rotate(45deg);",
+        "isNew": true,
+        "description": "Deep sea precision.",
+        "details": {
+            "Material": "Marine Grade Steel",
+            "Usage": "Diving, Water Sports",
+            "WaterResistance": "200m",
+            "Features": "Rotating Bezel, Screw-down Crown"
+        }
+    },
+    {
+        "id": 10,
+        "name": "Silver Horizon",
+        "category": "budget",
+        "price": 5999,
+        "image": "assets/images/watch1.png",
+        "style": "filter: grayscale(100%);",
+        "description": "Shining bright.",
+        "details": {
+            "Material": "Silver Plated Alloy",
+            "Usage": "Party, Casual",
+            "WaterResistance": "30m",
+            "Features": "Sunburst Dial, Mesh Strap"
+        }
+    },
+    {
+        "id": 11,
+        "name": "Gold Standard",
+        "category": "premium",
+        "price": 55000,
+        "image": "assets/images/watch4.png",
+        "style": "filter: sepia(20%) brightness(110%);",
+        "description": "The benchmark of luxury.",
+        "details": {
+            "Material": "18k Gold Plated, Sapphire",
+            "Usage": "Gala, Special Occasions",
+            "WaterResistance": "50m",
+            "Features": "Diamond Markers, Swiss Movement"
+        }
+    },
+    {
+        "id": 12,
+        "name": "Vintage Aviator",
+        "category": "budget",
+        "price": 7500,
+        "image": "assets/images/watch2.png",
+        "style": "filter: sepia(60%);",
+        "description": "Fly high with style.",
+        "details": {
+            "Material": "Aged Steel, Leather",
+            "Usage": "Casual, Pilot Style",
+            "WaterResistance": "50m",
+            "Features": "Large Numerals, Onion Crown"
+        }
+    },
+    {
+        "id": 13,
+        "name": "Onyx Elite",
+        "category": "premium",
+        "price": 38000,
+        "image": "assets/images/watch3.png",
+        "style": "filter: contrast(130%);",
+        "description": "Black as night, sharp as steel.",
+        "details": {
+            "Material": "Black PVD Steel, Carbon Fiber",
+            "Usage": "Modern Formal, Night Out",
+            "WaterResistance": "100m",
+            "Features": "Stealth Design, Chronograph"
+        }
+    },
+    {
+        "id": 14,
+        "name": "Solar Flare",
+        "category": "premium",
+        "price": 42000,
+        "image": "assets/images/watch4.png",
+        "style": "filter: hue-rotate(320deg);",
+        "isNew": true,
+        "description": "Brilliant energy.",
+        "details": {
+            "Material": "Solar Steel, Rubber Strap",
+            "Usage": "Active Premium",
+            "WaterResistance": "100m",
+            "Features": "Solar Powered, Perpetual Calendar"
+        }
+    },
+    {
+        "id": 15,
+        "name": "Aqua Marine",
+        "category": "budget",
+        "price": 4500,
+        "image": "assets/images/watch1.png",
+        "style": "filter: hue-rotate(180deg) brightness(110%);",
+        "description": "Ocean vibes.",
+        "details": {
+            "Material": "Resin, Acrylic Glass",
+            "Usage": "Beach, Pool",
+            "WaterResistance": "100m",
+            "Features": "Vibrant Color, Lightweight"
+        }
+    },
+    {
+        "id": 16,
+        "name": "Stealth Ops",
+        "category": "budget",
+        "price": 8200,
+        "image": "assets/images/watch2.png",
+        "style": "filter: brightness(60%);",
+        "description": "Unseen, unheard.",
+        "details": {
+            "Material": "Matte Black Alloy",
+            "Usage": "Tactical, Casual",
+            "WaterResistance": "50m",
+            "Features": "Negative Display, Backlight"
+        }
+    },
+    {
+        "id": 17,
+        "name": "Lunar Phase",
+        "category": "premium",
+        "price": 60000,
+        "image": "assets/images/watch3.png",
+        "style": "filter: grayscale(50%) contrast(110%);",
+        "description": "Track the moon.",
+        "details": {
+            "Material": "Platinum Plated, Alligator Strap",
+            "Usage": "Astrology, Formal",
+            "WaterResistance": "30m",
+            "Features": "Moonphase Complication, Exhibition Back"
+        }
+    },
+    {
+        "id": 18,
+        "name": "Retro Racer",
+        "category": "budget",
+        "price": 6800,
+        "image": "assets/images/watch1.png",
+        "style": "filter: sepia(40%) hue-rotate(10deg);",
+        "isNew": true,
+        "description": "Speed and style.",
+        "details": {
+            "Material": "Perforated Leather, Steel",
+            "Usage": "Driving, Casual",
+            "WaterResistance": "50m",
+            "Features": "Tachymeter Scale, Racing Dial"
+        }
+    },
+    {
+        "id": 19,
+        "name": "Emerald Monarch",
+        "category": "premium",
+        "price": 75000,
+        "image": "assets/images/watch5.png",
+        "style": "",
+        "isNew": true,
+        "description": "A royal statement in emerald and gold.",
+        "details": {
+            "Material": "18k Yellow Gold, Emerald Indices",
+            "Usage": "Black Tie",
+            "WaterResistance": "30m",
+            "Features": "Genuine Emeralds, Swiss Automatic"
+        }
+    },
+    {
+        "id": 20,
+        "name": "Obsidian Mesh",
+        "category": "premium",
+        "price": 22000,
+        "image": "assets/images/watch6.png",
+        "style": "",
+        "isNew": true,
+        "description": "Modern minimalism for the digital age.",
+        "details": {
+            "Material": "Black Milanese Mesh, Sapphire",
+            "Usage": "Modern Business",
+            "WaterResistance": "50m",
+            "Features": "Ultra-thin Case, Magnetic Clasp"
+        }
+    },
+    {
+        "id": 21,
+        "name": "Sapphire Skeleton",
+        "category": "premium",
+        "price": 85000,
+        "image": "assets/images/watch7.png",
+        "style": "",
+        "isNew": true,
+        "description": "The intricate dance of time, revealed.",
+        "details": {
+            "Material": "Full Sapphire Case, Skeletonized Movement",
+            "Usage": "High Horology Enthusiast",
+            "WaterResistance": "30m",
+            "Features": "Fully Visible Geartrain, Leather Strap"
+        }
+    },
+    {
+        "id": 22,
+        "name": "Rose Gold Chrono",
+        "category": "premium",
+        "price": 62000,
+        "image": "assets/images/watch8.png",
+        "style": "",
+        "isNew": true,
+        "description": "Timeless luxury in rose gold.",
+        "details": {
+            "Material": "Solid Rose Gold, Link Bracelet",
+            "Usage": "Luxury Statement",
+            "WaterResistance": "100m",
+            "Features": "Triple Sub-dial, Date Window"
+        }
+    },
+    {
+        "id": 23,
+        "name": "Sport Trekker",
+        "category": "budget",
+        "price": 4200,
+        "image": "assets/images/watch9.png",
+        "style": "",
+        "isNew": true,
+        "description": "Built for the extreme.",
+        "details": {
+            "Material": "Reinforced Resin, Rubber",
+            "Usage": "Hiking, Trekking",
+            "WaterResistance": "200m",
+            "Features": "Altimeter, Barometer, Compass"
+        }
+    },
+    {
+        "id": 24,
+        "name": "Canvas Field",
+        "category": "budget",
+        "price": 2800,
+        "image": "assets/images/watch10.png",
+        "style": "",
+        "isNew": true,
+        "description": "Rugged simplicity for the outdoors.",
+        "details": {
+            "Material": "Brushed Steel, Canvas Strap",
+            "Usage": "Field Work, Camping",
+            "WaterResistance": "100m",
+            "Features": "High Contrast Dial, Lumed Hands"
+        }
+    }
+]

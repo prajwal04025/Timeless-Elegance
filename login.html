@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Zoro Luxury Timepieces</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <!-- Using the same logo structure as index.html -->
+                    <span class="text-gold">&</span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Collection</a>
+                    <a href="about.html">Our Story</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="account.html" class="nav-icon-btn active" title="My Account"
+                        style="display:inline-block; border:none; background:none; text-decoration:none;">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button id="wishlist-btn" class="nav-icon-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </button>
+                    <button id="cart-btn" class="nav-icon-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Spacer for fixed header -->
+    <div style="height: 100px;"></div>
+
+    <!-- Login Section -->
+    <div class="container fade-in">
+        <div class="auth-container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 class="heading-lg">Welcome </h2>
+                <p class="text-body">Sign in to your account to access your profile and order history.</p>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" style="display: flex; justify-content: space-between;">
+                        <span>Password</span>
+                        <a href="#" style="font-size: 0.8rem; color: var(--accent-gold);">Forgot?</a>
+                    </label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Enter your password"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>New to Zoro? <a href="#">Create an Account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: #000; padding: var(--spacing-xl) 0 var(--spacing-md); margin-top: auto;">
+        <div class="container">
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                <div style="flex: 1; min-width: 250px;">
+                    <h3 class="heading-md">ZORO <span class="text-gold"></span>
+                        <p class="text-body">Elevating your style with timeless precision. Designed for the modern
+                            professional.</p>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main);">Quick Links</h4>
+                    <ul style="color: var(--text-secondary);">
+                        <li style="margin-bottom: 0.5rem;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="products.html">Collection</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="about.html">About Us</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-main);">Contact</h4>
+                    <p class="text-body">123 Luxury Ave, Business District<br>Banglore, KA 560001</p>
+                    <p class="text-body">zoro@gmail.com<br>+91 98765 43210</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="#" style="color: var(--text-main); margin-right: 1rem;"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: var(--text-main); margin-right: 1rem;"><i
+                                class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: var(--text-main);"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid #333; padding-top: var(--spacing-md); text-align: center; color: #666; font-size: 0.9rem;">
+                &copy; 2025 Zoro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Simple login simulation
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // In a real app, validation and AIO call would go here
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (email && password) {
+                // Simulate loading
+                const btn = this.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Signing In...';
+
+                setTimeout(() => {
+                    // Redirect to account page
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+
+</html>

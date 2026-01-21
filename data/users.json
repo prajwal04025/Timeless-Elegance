@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Test User",
+        "email": "test@zoro.com",
+        "password": "prajwal123",
+        "phone": "+91 9876543210",
+        "addresses": [
+            {
+                "label": "Home",
+                "text": "123 Test Lane, \nBangalore, KA"
+            }
+        ],
+        "wallet": {
+            "balance": 5000,
+            "transactions": [
+                {
+                    "type": "Welcome Bonus",
+                    "amount": 5000,
+                    "date": "2025-01-01T10:00:00Z"
+                }
+            ]
+        },
+        "orders": []
+    }
+]

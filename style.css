@@ -355,3 +355,174 @@ nav {
     background: var(--accent-gold);
     color: var(--bg-primary);
 }
+
+/* --- Account & Form Styles (Refactored) --- */
+.account-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) 2rem;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+}
+
+.account-sidebar {
+    background: var(--bg-primary);
+    padding: 1.5rem;
+    border: 1px solid #333;
+    height: fit-content;
+}
+
+.account-nav-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: inherit;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+    transition: var(--transition-standard);
+}
+
+.account-nav-btn:hover,
+.account-nav-btn.active {
+    color: var(--accent-gold);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.account-nav-btn i {
+    margin-right: 0.5rem;
+    width: 20px;
+}
+
+.account-content {
+    background: var(--bg-primary);
+    padding: 2rem;
+    border: 1px solid #333;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem;
+    background: #000;
+    border: 1px solid #333;
+    color: var(--text-main);
+    font-family: inherit;
+}
+
+.form-input:focus {
+    border-color: var(--accent-gold);
+    outline: none;
+}
+
+.section-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+}
+
+/* Shared Auth Page Styles (Login/Register) */
+.auth-container {
+    max-width: 500px;
+    margin: var(--spacing-xl) auto;
+    padding: 2rem;
+    background: var(--bg-primary);
+    border: 1px solid #333;
+}
+
+.auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* --- Order History Styles --- */
+.order-card {
+    border: 1px solid #333;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.order-id {
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.order-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.order-status {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.status-processing {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--accent-gold);
+}
+
+.status-completed {
+    background: rgba(0, 128, 0, 0.2);
+    color: #4caf50;
+}
+
+.order-items-list {
+    margin-bottom: 1rem;
+}
+
+.order-item-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.order-total {
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+}

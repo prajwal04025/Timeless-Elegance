@@ -196,7 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Use dataset for reliable price extraction
                 const price = parseFloat(card.dataset.price);
                 const image = card.querySelector('img').src;
-                wishlist.push({ name, price, image });
+                const id = parseInt(card.dataset.id);
+                wishlist.push({ id, name, price, image });
                 btn.classList.add('active');
                 btn.innerHTML = '<i class="fas fa-heart"></i>';
             }
@@ -205,14 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
             updateBadges();
         }
 
-        // Nav Icons (Delegated or bind later if static)
+        // Nav Icons - Redirect to New Tab
         if (e.target.closest('#cart-btn')) {
-            renderCart();
-            openSidebar(cartSidebar);
+            window.open('account.html?tab=cart', '_blank');
         }
         if (e.target.closest('#wishlist-btn')) {
-            renderWishlist();
-            openSidebar(wishlistSidebar);
+            window.open('account.html?tab=wishlist', '_blank');
         }
 
         // Close sidebar
@@ -282,73 +281,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Dynamic Product Generation & Rendering ---
 
+    // --- Dynamic Product Generation & Rendering ---
+
     const filterButtons = document.querySelectorAll('.filter-btn');
     const sortSelect = document.getElementById('sort-select');
     const productGrid = document.getElementById('product-grid');
 
-    // 1. Define Initial Manual Products (Data from original HTML)
-    const manualProducts = [
-        { name: "Midnight Chronograph", category: "premium", price: 24999, image: "assets/images/watch1.png", style: "" },
-        { name: "Royal Merit", category: "premium", price: 18500, image: "assets/images/watch2.png", style: "" },
-        { name: "Urban Daily", category: "budget", price: 4999, image: "assets/images/watch1.png", style: "filter: grayscale(100%);" },
-        { name: "Classic Minimalist", category: "budget", price: 6500, image: "assets/images/watch2.png", style: "filter: sepia(50%);" },
-        { name: "Celestial Voyager", category: "premium", price: 45000, image: "assets/images/watch3.png", style: "", isNew: true },
-        { name: "Grand Master", category: "premium", price: 32000, image: "assets/images/watch4.png", style: "", isNew: true },
-        { name: "Urban Scout", category: "budget", price: 3500, image: "assets/images/watch1.png", style: "filter: grayscale(100%) contrast(120%);", isNew: true },
-        { name: "Metro Classic", category: "budget", price: 5500, image: "assets/images/watch2.png", style: "filter: sepia(30%) brightness(90%);", isNew: true },
-        { name: "Abyss Diver", category: "premium", price: 28000, image: "assets/images/watch3.png", style: "filter: hue-rotate(45deg);", isNew: true },
-        { name: "Silver Horizon", category: "budget", price: 5999, image: "assets/images/watch1.png", style: "filter: grayscale(100%);" },
-        { name: "Gold Standard", category: "premium", price: 55000, image: "assets/images/watch4.png", style: "filter: sepia(20%) brightness(110%);" },
-        { name: "Vintage Aviator", category: "budget", price: 7500, image: "assets/images/watch2.png", style: "filter: sepia(60%);" },
-        { name: "Onyx Elite", category: "premium", price: 38000, image: "assets/images/watch3.png", style: "filter: contrast(130%);" },
-        { name: "Solar Flare", category: "premium", price: 42000, image: "assets/images/watch4.png", style: "filter: hue-rotate(320deg);", isNew: true },
-        { name: "Aqua Marine", category: "budget", price: 4500, image: "assets/images/watch1.png", style: "filter: hue-rotate(180deg) brightness(110%);" },
-        { name: "Stealth Ops", category: "budget", price: 8200, image: "assets/images/watch2.png", style: "filter: brightness(60%);" },
-        { name: "Lunar Phase", category: "premium", price: 60000, image: "assets/images/watch3.png", style: "filter: grayscale(50%) contrast(110%);" },
-        { name: "Retro Racer", category: "budget", price: 6800, image: "assets/images/watch1.png", style: "filter: sepia(40%) hue-rotate(10deg);", isNew: true }
-    ];
+    let allProducts = [];
 
-    // 2. Procedural Generation Config
-    const prefixes = ["Cosmic", "Neo", "Vanguard", "Titan", "Aero", "Lumina", "Stellar", "Iron", "Shadow", "Pacific", "Alpine", "Desert", "Quantum", "Omega", "Prime", "Elite", "Nova", "Hyper", "Sonic", "Velvet"];
-    const suffixes = ["Timer", "Master", "Guard", "Pilot", "Diver", "Racer", "Classic", "Sport", "Tourbillon", "Chrono", "Matic", "Quartz", "Geneva", "Legacy", "Vision", "Force", "Element", "Fusion", "Spark", "Pulse"];
-    const baseImages = ["assets/images/watch1.png", "assets/images/watch2.png", "assets/images/watch3.png", "assets/images/watch4.png"];
+    // Fetch Products from JSON
+    const loadProducts = async () => {
+        try {
+            const response = await fetch('data/products.json');
+            if (!response.ok) throw new Error('Failed to load products');
+            allProducts = await response.json();
 
-    const generateNewProducts = (count) => {
-        const generated = [];
-        for (let i = 0; i < count; i++) {
-            const name = `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`;
-            const isPremium = Math.random() > 0.5;
-            const price = isPremium
-                ? Math.floor(Math.random() * (80000 - 20000) + 20000)
-                : Math.floor(Math.random() * (15000 - 3000) + 3000);
-
-            // Random Filter Generation for Visual Uniqueness
-            const hue = Math.floor(Math.random() * 360);
-            const sepia = Math.floor(Math.random() * 50);
-            const contrast = Math.floor(Math.random() * (150 - 90) + 90);
-            const filter = `filter: hue-rotate(${hue}deg) sepia(${sepia}%) contrast(${contrast}%);`;
-
-            generated.push({
-                name: name,
-                category: isPremium ? "premium" : "budget",
-                price: price,
-                image: baseImages[Math.floor(Math.random() * baseImages.length)],
-                style: filter,
-                isNew: Math.random() > 0.8 // 20% chance of being new
+            // Initial Add Data (Ratings, etc. - in a real app this would be in DB)
+            allProducts.forEach((item, index) => {
+                item.originalIndex = index;
+                if (!item.rating) item.rating = (Math.random() * (5.0 - 3.5) + 3.5).toFixed(1);
+                if (item.discount === undefined) item.discount = Math.random() > 0.7 ? Math.floor(Math.random() * (30 - 5) + 5) : 0;
             });
+
+            if (productGrid) renderProducts(allProducts);
+        } catch (error) {
+            console.error('Error loading products:', error);
+            // Fallback content or error message
+            if (productGrid) productGrid.innerHTML = '<p class="text-body" style="text-align:center;">Unable to load products. Please try again later.</p>';
         }
-        return generated;
     };
 
-    // 3. Combine All Products
-    let allProducts = [...manualProducts, ...generateNewProducts(10)];
-
-    // 4. Initialize Data (Ratings, Discounts, Index)
-    allProducts.forEach((item, index) => {
-        item.originalIndex = index;
-        item.rating = (Math.random() * (5.0 - 3.5) + 3.5).toFixed(1);
-        item.discount = Math.random() > 0.7 ? Math.floor(Math.random() * (30 - 5) + 5) : 0;
-    });
+    // Call load
+    loadProducts();
 
     // 5. Render Function
     const renderProducts = (products) => {
@@ -364,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             el.dataset.rating = item.rating;
             el.dataset.discount = item.discount;
             el.dataset.originalIndex = item.originalIndex; // Important for relevance sort
+            el.dataset.id = item.id;
             if (item.isNew) el.classList.add('new-arrival');
 
             el.style.backgroundColor = 'var(--bg-primary)';
@@ -384,35 +349,160 @@ document.addEventListener('DOMContentLoaded', () => {
             const heartIcon = isInWishlist ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
             const heartClass = isInWishlist ? 'active' : '';
 
+            // Render Product Card
             el.innerHTML = `
-                <button class="wishlist-btn ${heartClass}">${heartIcon}</button>
-                ${ratingBadge}
                 ${discountBadge}
-                <div style="height: 300px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #222; margin-bottom: 1.5rem;">
-                    <img src="${item.image}" alt="${item.name}" style="max-height: 90%; ${item.style}">
+                ${ratingBadge}
+                <div style="overflow: hidden; border-radius: 4px; margin-bottom: 1rem; cursor: pointer;" onclick="openProductModal(${item.id})">
+                    <img src="${item.image}" alt="${item.name}" loading="lazy" style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.5s ease;">
                 </div>
-                <div style="text-align: center;">
-                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.8rem;">${item.category === 'premium' ? 'Premium' : 'Everyday'}</span>
-                    <h3 class="heading-md" style="margin-top: 0.5rem;">${item.name}</h3>
-                    <p class="text-gold" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem;">₹ ${item.price.toLocaleString()}</p>
-                    <button class="btn btn-primary add-to-cart-btn" style="padding: 0.5rem 1.5rem; font-size: 0.8rem;">Add to Cart</button>
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                   <div>
+                        <h3 class="heading-md" style="font-size: 1.1rem; margin-bottom: 0.2rem; min-height: 2.2em;">${item.name}</h3>
+                        <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 0.5rem;">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</p>
+                   </div>
+                   <button class="wishlist-btn ${heartClass}" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--accent-gold); transition: transform 0.2s;">
+                        ${heartIcon}
+                   </button>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                         <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;">₹ ${item.price.toLocaleString()}</span>
+                         ${item.discount > 0 ? `<span style="text-decoration: line-through; color: #666; font-size: 0.9rem; margin-left: 0.5rem;">₹ ${Math.round(item.price * (100 / (100 - item.discount))).toLocaleString()}</span>` : ''}
+                    </div>
+                    <button class="btn btn-primary add-to-cart-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Add to Cart</button>
                 </div>
             `;
+
+            // Hover effect for image zoom
+            const imgContainer = el.querySelector('div[style*="overflow: hidden"]');
+            const img = el.querySelector('img');
+
+            imgContainer.addEventListener('mouseenter', () => {
+                img.style.transform = 'scale(1.1)';
+            });
+            imgContainer.addEventListener('mouseleave', () => {
+                img.style.transform = 'scale(1)';
+            });
+
             productGrid.appendChild(el);
 
-            // Re-observe for scroll animation
-            if (typeof observer !== 'undefined') {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                observer.observe(el);
-            } else {
-                // Fallback if observer issue
-                el.style.opacity = '1';
-                el.style.transform = 'none';
-            }
-
+            // Observe for scroll animation
+            observer.observe(el);
         });
     };
+
+    // --- Product Details Modal Logic ---
+
+    // Inject Modal HTML if not exists
+    if (!document.getElementById('product-details-modal')) {
+        const modalHtml = `
+        <div id="product-details-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; padding: 1rem;">
+            <div style="background: var(--bg-secondary); width: 100%; max-width: 900px; max-height: 90vh; border: 1px solid var(--accent-gold); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; position: relative; animation: fadeIn 0.3s ease;">
+                
+                <button onclick="closeProductModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
+
+                <div style="display: flex; flex-direction: column; md:flex-row; height: 100%; overflow-y: auto;">
+                    
+                    <div class="modal-body-content" style="display:flex; flex-wrap:wrap;">
+                        <!-- Image Section -->
+                        <div style="flex: 1; min-width: 300px; padding: 2rem; display: flex; align-items: center; justify-content: center; background: #fff;">
+                            <img id="modal-img" src="" alt="Watch" style="max-width: 100%; max-height: 400px; object-fit: contain;">
+                        </div>
+
+                        <!-- Details Section -->
+                        <div style="flex: 1; min-width: 300px; padding: 2rem; display: flex; flex-direction: column; justify-content: center;">
+                            <span id="modal-category" class="text-secondary" style="text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 0.5rem;">Category</span>
+                            <h2 id="modal-title" class="heading-lg" style="margin-bottom: 1rem;">Watch Name</h2>
+                            <p id="modal-price" class="text-gold" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem;">₹ 0</p>
+                            
+                            <p id="modal-desc" class="text-body" style="margin-bottom: 2rem; line-height: 1.6;"></p>
+
+                           <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                                <h4 style="color: var(--text-main); margin-bottom: 1rem; border-bottom: 1px solid #444; padding-bottom: 0.5rem;">Specifications</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
+                                    <div>
+                                        <span class="text-secondary">Material:</span><br>
+                                        <span id="modal-material" class="text-main">Stainless Steel</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-secondary">Water Resistance:</span><br>
+                                        <span id="modal-water" class="text-main">30m</span>
+                                    </div>
+                                     <div>
+                                        <span class="text-secondary">Usage:</span><br>
+                                        <span id="modal-usage" class="text-main">Universal</span>
+                                    </div>
+                                     <div>
+                                        <span class="text-secondary">Features:</span><br>
+                                        <span id="modal-features" class="text-main">Standard Timekeeping</span>
+                                    </div>
+                                </div>
+                           </div>
+
+                           <button id="modal-add-btn" class="btn btn-primary" style="width: 100%; padding: 1rem;">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+            @media (max-width: 768px) { .modal-body-content { flex-direction: column; } }
+        </style>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    window.openProductModal = (id) => {
+        const product = allProducts.find(p => p.id === id);
+        if (!product) return;
+
+        document.getElementById('modal-img').src = product.image;
+        document.getElementById('modal-img').alt = product.name;
+        document.getElementById('modal-category').textContent = product.category;
+        document.getElementById('modal-title').textContent = product.name;
+        document.getElementById('modal-price').textContent = `₹ ${product.price.toLocaleString()}`;
+        document.getElementById('modal-desc').textContent = product.description;
+
+        // Detailed Specs (with fallbacks)
+        const details = product.details || {};
+        document.getElementById('modal-material').textContent = details.Material || 'Standard Alloy';
+        document.getElementById('modal-water').textContent = details.WaterResistance || 'Water Resistant';
+        document.getElementById('modal-usage').textContent = details.Usage || 'Universal';
+        document.getElementById('modal-features').textContent = details.Features || 'Standard Timekeeping';
+
+        // Add to cart button logic override for this instance
+        const addBtn = document.getElementById('modal-add-btn');
+        addBtn.onclick = () => {
+            cart.push({ name: product.name, price: Number(product.price), image: product.image });
+            saveCart();
+            renderCart();
+            updateBadges();
+            openSidebar(cartSidebar);
+            closeProductModal();
+        };
+
+        document.getElementById('product-details-modal').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    };
+
+    window.closeProductModal = () => {
+        const modal = document.getElementById('product-details-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    };
+
+    // Close modal on outside click
+    document.addEventListener('click', (e) => {
+        const modal = document.getElementById('product-details-modal');
+        if (e.target === modal) {
+            closeProductModal();
+        }
+    });
 
 
     // 6. Filter & Sort Logic (Updated to use Data)
@@ -480,8 +570,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 
     // --- Account & Address Management ---
-    let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
-    let userAddresses = JSON.parse(localStorage.getItem('userAddresses')) || [];
+    let userProfile = JSON.parse(localStorage.getItem('userProfile')) || null;
+    let userAddresses = JSON.parse(localStorage.getItem('userAddresses')) || null;
+    let userWallet = JSON.parse(localStorage.getItem('userWallet')) || null;
+
+    // Helper: Load Initial User Data from JSON if LocalStorage is empty
+    const initUserData = async () => {
+        if (!userProfile || !userAddresses || !userWallet) {
+            try {
+                const response = await fetch('data/users.json');
+                if (response.ok) {
+                    const users = await response.json();
+                    const testUser = users[0]; // Load the first mock user
+
+                    if (!userProfile) {
+                        userProfile = { name: testUser.name, email: testUser.email, phone: testUser.phone };
+                        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                    }
+                    if (!userAddresses) {
+                        userAddresses = testUser.addresses || [];
+                        localStorage.setItem('userAddresses', JSON.stringify(userAddresses));
+                    }
+                    if (!userWallet) {
+                        userWallet = testUser.wallet || { balance: 0, transactions: [] };
+                        localStorage.setItem('userWallet', JSON.stringify(userWallet));
+                    }
+
+                    // Re-render dependent components
+                    renderProfile();
+                    renderAddresses();
+                    renderWallet();
+                }
+            } catch (e) {
+                console.error("Failed to load user mock data", e);
+                // Fallback defaults
+                if (!userProfile) userProfile = {};
+                if (!userAddresses) userAddresses = [];
+                if (!userWallet) userWallet = { balance: 0, transactions: [] };
+            }
+        }
+    };
+    initUserData();
 
     const saveUserProfile = () => {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
@@ -491,12 +620,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Profile Form Logic
     const profileForm = document.getElementById('profile-form');
-    if (profileForm) {
-        // Load existing data
-        document.getElementById('profile-name').value = userProfile.name || '';
-        document.getElementById('profile-email').value = userProfile.email || '';
-        document.getElementById('profile-phone').value = userProfile.phone || '';
 
+    // Extracted render function
+    const renderProfile = () => {
+        const displaySection = document.getElementById('profile-display');
+        const displayName = document.getElementById('display-name');
+        const displayEmail = document.getElementById('display-email');
+        const displayPhone = document.getElementById('display-phone');
+
+        if (displaySection && userProfile && (userProfile.name || userProfile.email)) {
+            displaySection.style.display = 'block';
+            if (displayName) displayName.textContent = userProfile.name || 'N/A';
+            if (displayEmail) displayEmail.textContent = userProfile.email || 'N/A';
+            if (displayPhone) displayPhone.textContent = userProfile.phone || 'N/A';
+        } else if (displaySection) {
+            displaySection.style.display = 'none';
+        }
+
+        // Note: We deliberately DO NOT pre-fill the form inputs here anymore
+        // as per the user's request to keep them empty for new entries.
+    }
+
+    if (profileForm) {
+        renderProfile(); // Initial render
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
             userProfile = {
@@ -505,7 +651,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 phone: document.getElementById('profile-phone').value
             };
             saveUserProfile();
+            renderProfile(); // Update the display section
             alert('Profile saved successfully!');
+            profileForm.reset(); // Clear inputs
         });
     }
 
@@ -514,7 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addressForm = document.getElementById('address-form');
 
     const renderAddresses = () => {
-        if (!addressListEl) return;
+        if (!addressListEl || !userAddresses) return;
         addressListEl.innerHTML = '';
         if (userAddresses.length === 0) {
             addressListEl.innerHTML = '<p class="text-body">No addresses saved yet.</p>';
@@ -558,11 +706,435 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Checkout Logic Update
-    const checkoutBtn = document.querySelector('.sidebar-footer .btn-primary'); // More specific selector
+    // --- Order & Checkout Logic ---
+    let userOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    const saveOrders = () => localStorage.setItem('userOrders', JSON.stringify(userOrders));
+
+    const renderOrders = () => {
+        const ordersTab = document.getElementById('tab-orders');
+        if (!ordersTab) return;
+
+        // Find the container list inside relevant tab or clear if needed
+        // Assuming the tab has simple content, we might wipe it slightly incorrectly if we are not careful
+        // Let's target a specific container or create one if not exists
+        let orderListContainer = document.getElementById('order-list-container');
+        if (!orderListContainer) {
+            // Clear default text if any
+            const defaultText = ordersTab.querySelector('.text-body');
+            if (defaultText) defaultText.style.display = 'none';
+
+            orderListContainer = document.createElement('div');
+            orderListContainer.id = 'order-list-container';
+            ordersTab.appendChild(orderListContainer);
+        }
+
+        orderListContainer.innerHTML = '';
+
+        if (userOrders.length === 0) {
+            orderListContainer.innerHTML = '<p class="text-body">You haven\'t placed any orders yet.</p>';
+            return;
+        }
+
+        // Sort by date desc
+        const sortedOrders = [...userOrders].reverse();
+
+        sortedOrders.forEach(order => {
+            const dateStr = new Date(order.date).toLocaleDateString();
+
+            let itemsHtml = '';
+            order.items.forEach(item => {
+                itemsHtml += `
+                    <div class="order-item-row">
+                        <span>${item.name} (x1)</span> 
+                        <span class="text-gold">₹ ${item.price.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+
+            const card = document.createElement('div');
+            card.className = 'order-card';
+
+            // Add Cancel Button if status is Processing
+            let actionHtml = '';
+            if (order.status === 'Processing') {
+                actionHtml = `<div style="text-align: right; border-top: 1px solid #333; padding-top: 1rem; margin-top: 1rem;">
+                    <button class="btn btn-outline cancel-order-btn" data-id="${order.id}" style="font-size: 0.8rem; border-color: #ff4444; color: #ff4444;">Cancel Order</button>
+                </div>`;
+            }
+
+            card.innerHTML = `
+                <div class="order-header">
+                    <div>
+                        <div class="order-id">Order #${order.id}</div>
+                        <div class="order-date">${dateStr}</div>
+                    </div>
+                    <div class="order-status ${order.status === 'Processing' ? 'status-processing' : 'status-completed'}" 
+                         style="${order.status === 'Cancelled' ? 'background: rgba(255, 68, 68, 0.1); color: #ff4444;' : ''}">
+                        ${order.status}
+                    </div>
+                </div>
+                <div class="order-items-list">
+                    ${itemsHtml}
+                </div>
+                <div class="order-total">
+                    Total: <span class="text-gold">₹ ${order.total.toLocaleString()}</span>
+                </div>
+                ${actionHtml}
+            `;
+            orderListContainer.appendChild(card);
+        });
+
+        // Add Listeners to Cancel Buttons
+        document.querySelectorAll('.cancel-order-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const orderId = e.target.getAttribute('data-id');
+                openCancelModal(orderId);
+            });
+        });
+    };
+
+    // --- Cancel Order Logic ---
+    let currentCancellingOrderId = null;
+    const cancelModal = document.getElementById('cancel-modal');
+    const cancelForm = document.getElementById('cancel-form');
+
+    // Expose close function globally or attach to window for HTML onclick
+    window.closeCancelModal = () => {
+        if (cancelModal) {
+            cancelModal.style.display = 'none';
+            currentCancellingOrderId = null;
+            cancelForm.reset();
+        }
+    };
+
+    const openCancelModal = (orderId) => {
+        currentCancellingOrderId = orderId;
+        if (cancelModal) {
+            cancelModal.style.display = 'flex';
+        }
+    };
+
+    if (cancelForm) {
+        cancelForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!currentCancellingOrderId) return;
+
+            const reason = document.getElementById('cancel-reason').value;
+            const comments = document.getElementById('cancel-comments').value;
+
+            // Find order
+            const orderIndex = userOrders.findIndex(o => o.id === currentCancellingOrderId);
+            if (orderIndex > -1) {
+                const order = userOrders[orderIndex];
+
+                // Update Status
+                order.status = 'Cancelled';
+                order.cancellationReason = reason;
+                order.cancellationComments = comments;
+
+                // Refund to Wallet
+                userWallet.balance += order.total;
+                userWallet.transactions.push({
+                    type: `Refund for Order #${order.id}`,
+                    amount: order.total,
+                    date: new Date().toISOString()
+                });
+
+                // Save All
+                saveOrders();
+                saveWallet();
+
+                // UI Updates
+                renderOrders();
+                renderWallet();
+
+                alert(`Order #${order.id} cancelled successfully.\n₹ ${order.total.toLocaleString()} has been refunded to your wallet.`);
+                closeCancelModal();
+            }
+        });
+    }
+
+    // Call renderOrders on init if we have data
+    renderOrders();
+
+    // --- Checkout Tab Logic ---
+    const renderCheckoutTab = () => {
+        const checkoutItemsContainer = document.getElementById('checkout-items-container');
+        const checkoutAddress = document.getElementById('checkout-address');
+        const checkoutTotal = document.getElementById('checkout-total');
+        const checkoutWalletBalance = document.getElementById('checkout-wallet-balance');
+
+        if (!checkoutItemsContainer) return; // Not on account page or elements missing
+
+        // Render Summary Items
+        checkoutItemsContainer.innerHTML = '';
+        const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+
+        if (currentCart.length === 0) {
+            checkoutItemsContainer.innerHTML = '<p class="text-secondary">Your cart is empty.</p>';
+        } else {
+            currentCart.forEach(item => {
+                const price = Number(item.price) || 0;
+                total += price;
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifyContent = 'space-between';
+                div.style.marginBottom = '0.5rem';
+                div.style.borderBottom = '1px solid #333';
+                div.style.paddingBottom = '0.5rem';
+                div.innerHTML = `
+                    <span>${item.name}</span>
+                    <span class="text-gold">₹ ${price.toLocaleString()}</span>
+                `;
+                checkoutItemsContainer.appendChild(div);
+            });
+        }
+
+        if (checkoutTotal) checkoutTotal.textContent = `₹ ${total.toLocaleString()}`;
+        if (checkoutWalletBalance && userWallet) checkoutWalletBalance.textContent = `₹ ${userWallet.balance.toLocaleString()}`;
+
+        // Render Address Preview
+        if (checkoutAddress) {
+            const addresses = JSON.parse(localStorage.getItem('userAddresses')) || [];
+            if (addresses.length > 0) {
+                checkoutAddress.innerHTML = `
+                    <h4 style="color: var(--text-main); margin-bottom: 0.5rem;">${addresses[0].label} <span class="badge-default">Default</span></h4>
+                    <p class="text-secondary" style="white-space: pre-wrap;">${addresses[0].text}</p>
+                `;
+            } else {
+                checkoutAddress.innerHTML = '<p class="text-body" style="color: #ff4444;">No valid shipping address found. Please add one.</p>';
+            }
+        }
+    };
+
+    // --- Tab Rendering Logic (Cart & Wishlist) ---
+    const renderCartTab = () => {
+        const container = document.getElementById('account-cart-container');
+        const footer = document.getElementById('account-cart-footer');
+        const totalEl = document.getElementById('account-cart-total');
+
+        if (!container) return;
+
+        container.innerHTML = '';
+        const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+
+        if (currentCart.length === 0) {
+            container.innerHTML = '<p class="text-secondary">Your cart is empty.</p>';
+            if (footer) footer.style.display = 'none';
+        } else {
+            currentCart.forEach((item, index) => {
+                total += Number(item.price) || 0;
+                const html = `
+                    <div class="order-card" style="display:flex; gap:1rem; align-items:center;">
+                        <img src="${item.image}" alt="${item.name}" style="width:80px; height:80px; object-fit:cover; border-radius:4px;">
+                        <div style="flex:1;">
+                            <h4 style="color:var(--text-main); margin-bottom:0.5rem;">${item.name}</h4>
+                            <p class="text-gold">₹ ${Number(item.price).toLocaleString()}</p>
+                        </div>
+                        <button class="btn btn-outline" onclick="removeItemFromCart(${index})" style="padding:0.5rem;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+            if (footer) {
+                footer.style.display = 'block';
+                if (totalEl) totalEl.textContent = `₹ ${total.toLocaleString()}`;
+            }
+        }
+    };
+
+    // Global helper for inline onclick removal
+    window.removeItemFromCart = (index) => {
+        const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+        currentCart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(currentCart));
+        // Update both tab and any sidebar logic if present
+        if (typeof cart !== 'undefined') cart.splice(index, 1); // update in-memory global if exists
+        renderCartTab();
+        updateBadges();
+    };
+
+
+    const renderWishlistTab = () => {
+        const container = document.getElementById('account-wishlist-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+        const currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+        if (currentWishlist.length === 0) {
+            container.innerHTML = '<p class="text-secondary">Your wishlist is empty.</p>';
+        } else {
+            currentWishlist.forEach((item, index) => {
+                // Determine ID: check if item has ID, if not try to find it in allProducts
+                let itemId = item.id;
+                if (!itemId && typeof allProducts !== 'undefined') {
+                    const match = allProducts.find(p => p.name === item.name);
+                    if (match) itemId = match.id;
+                }
+                const clickAttr = itemId ? `onclick="openProductModal(${itemId})"` : '';
+                const pointerStyle = itemId ? 'cursor: pointer;' : '';
+
+                const html = `
+                    <div class="order-card" style="display:flex; gap:1rem; align-items:center;">
+                        <div style="${pointerStyle}" ${clickAttr}>
+                            <img src="${item.image}" alt="${item.name}" style="width:80px; height:80px; object-fit:cover; border-radius:4px;">
+                        </div>
+                        <div style="flex:1;">
+                            <h4 style="color:var(--text-main); margin-bottom:0.5rem;">${item.name}</h4>
+                            <p class="text-gold">₹ ${Number(item.price).toLocaleString()}</p>
+                        </div>
+                         <div style="display:flex; gap:1rem;">
+                              <button class="btn btn-primary" onclick="moveToCart(${index})" style="padding:0.5rem 1rem; font-size:0.8rem;">Add to Cart</button>
+                              <button class="btn btn-outline" onclick="removeItemFromWishlist(${index})" style="padding:0.5rem;">
+                                  <i class="fas fa-trash"></i>
+                              </button>
+                         </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+    };
+
+    window.removeItemFromWishlist = (index) => {
+        const currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        currentWishlist.splice(index, 1);
+        localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
+        if (typeof wishlist !== 'undefined') wishlist.splice(index, 1);
+        renderWishlistTab();
+        updateBadges();
+        updateHeartIcons();
+    };
+
+    window.moveToCart = (index) => {
+        const currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const item = currentWishlist[index];
+        if (!item) return;
+
+        const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+        currentCart.push(item);
+
+        currentWishlist.splice(index, 1);
+
+        localStorage.setItem('cart', JSON.stringify(currentCart));
+        localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
+
+        if (typeof cart !== 'undefined') cart.push(item);
+        if (typeof wishlist !== 'undefined') wishlist.splice(index, 1);
+
+        renderWishlistTab();
+        updateBadges();
+        updateHeartIcons();
+        alert('Moved to cart!');
+    };
+
+
+    // URL Tab Switching Logic (e.g. account.html?tab=checkout)
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam) {
+        // Simulating switchTab logic for external script context
+        const triggerTab = (tName) => {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.account-content > div');
+            if (tabs.length > 0) {
+                tabs.forEach(div => div.style.display = 'none');
+                const target = document.getElementById('tab-' + tName);
+                if (target) target.style.display = 'block';
+
+                // Render specific tab content if needed
+                if (tName === 'checkout') renderCheckoutTab();
+                if (tName === 'cart') renderCartTab();
+                if (tName === 'wishlist') renderWishlistTab();
+            }
+        };
+        setTimeout(() => triggerTab(tabParam), 100);
+    }
+
+
+    // Confirm Order Button Logic (Inside Checkout Tab)
+    const confirmOrderBtn = document.getElementById('confirm-order-btn');
+    if (confirmOrderBtn) {
+        confirmOrderBtn.addEventListener('click', () => {
+            const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+            const addresses = JSON.parse(localStorage.getItem('userAddresses')) || [];
+
+            if (currentCart.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+
+            if (addresses.length === 0) {
+                alert('Please add a shipping address first.');
+                // Try to switch tab using global function if available or just alert
+                const addrBtn = document.querySelector('button[onclick="switchTab(\'addresses\')"]');
+                if (addrBtn) addrBtn.click();
+                return;
+            }
+
+            // Payment Method Validation
+            const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+            if (!selectedPayment) {
+                alert('Please select a payment method.');
+                return;
+            }
+            const paymentMethod = selectedPayment.value;
+            // Calculate total
+            const total = currentCart.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+
+            // Wallet Balance Check
+            if (paymentMethod === 'wallet') {
+                if (userWallet.balance < total) {
+                    alert(`Insufficient wallet balance. You need ₹ ${total.toLocaleString()} but have ₹ ${userWallet.balance.toLocaleString()}. Please add funds or choose another method.`);
+                    return;
+                }
+                // Deduct Balance
+                userWallet.balance -= total;
+                userWallet.transactions.push({
+                    type: 'Purchase',
+                    amount: -total,
+                    date: new Date().toISOString()
+                });
+                saveWallet();
+                renderWallet(); // Update UI in background
+            }
+
+            // Proceed to Place Order
+            const newOrder = {
+                id: Math.floor(100000 + Math.random() * 900000).toString(),
+                date: new Date().toISOString(),
+                status: 'Processing',
+                items: [...currentCart],
+                total: total,
+                shippingAddress: addresses[0],
+                paymentMethod: paymentMethod
+            };
+
+            userOrders.push(newOrder);
+            saveOrders();
+
+            // Clear Cart
+            cart = [];
+            saveCart(); // Updates the state variable and localStorage
+            renderCart(); // Update sidebar UI
+            updateBadges();
+
+            alert(`Order Confirmed! \nOrder #${newOrder.id} has been placed successfully.`);
+
+            // Redirect to Orders tab
+            window.location.href = 'account.html?tab=orders';
+        });
+    }
+
+    // Checkout Logic Update (Sidebar Button)
+    const checkoutBtn = document.querySelector('.sidebar-footer .btn-primary');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
-            // Refresh cart from local storage to ensure sync before checkout check
             cart = JSON.parse(localStorage.getItem('cart')) || [];
 
             if (cart.length === 0) {
@@ -570,30 +1142,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (userAddresses.length === 0) {
-                const proceed = confirm('You have no saved addresses. Would you like to add one now?');
-                if (proceed) {
-                    window.location.href = 'account.html';
-                }
-            } else {
-                const defaultAddr = userAddresses[0];
-                alert(`Order successfully placed!\n\nShip to:\n${userProfile.name || 'Guest'}\n${defaultAddr.text}\n\nThank you for shopping with Zoro.`);
-                cart = [];
-                saveCart();
-                renderCart();
-                updateBadges();
-                closeSidebars();
-            }
+            // Redirect to Checkout Tab
+            window.location.href = 'account.html?tab=checkout';
+
+            closeSidebars();
         });
     }
 
 
     // --- Wallet Management ---
-    let userWallet = JSON.parse(localStorage.getItem('userWallet')) || { balance: 0, transactions: [] };
 
+    // userWallet loaded at top
     const saveWallet = () => localStorage.setItem('userWallet', JSON.stringify(userWallet));
 
     const renderWallet = () => {
+        if (!userWallet) return;
         const balanceEl = document.getElementById('wallet-balance');
         const historyEl = document.getElementById('wallet-history');
 
@@ -639,7 +1202,127 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial Render
+    // --- Logout Logic ---
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                // Here you would typically clear session tokens like:
+                // localStorage.removeItem('authToken');
+                // But since we are mocking auth with these persistent stores, we might optional clear them:
+                // localStorage.removeItem('userProfile');
+                // localStorage.removeItem('userAddresses');
+                // localStorage.removeItem('userWallet');
+
+                window.location.href = 'login.html';
+            }
+        });
+    }
+
+    // --- Contact Form Logic ---
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+
+            if (name && email && message) {
+                const newMessage = {
+                    id: Date.now().toString(),
+                    name,
+                    email,
+                    message,
+                    date: new Date().toISOString()
+                };
+
+                const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+                messages.push(newMessage);
+                localStorage.setItem('contactMessages', JSON.stringify(messages));
+
+                alert('Thank you for contacting us! We have received your message and will get back to you shortly.');
+                contactForm.reset();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+    }
+
+    // --- Search Functionality ---
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) return;
+
+            const isProductsPage = window.location.pathname.includes('products.html');
+
+            if (isProductsPage) {
+                // Filter current page
+                const filtered = allProducts.filter(p =>
+                    p.name.toLowerCase().includes(query) ||
+                    p.category.toLowerCase().includes(query) ||
+                    (p.details && Object.values(p.details).some(val => val.toLowerCase().includes(query)))
+                );
+
+                const grid = document.getElementById('product-grid');
+                if (grid) {
+                    if (filtered.length > 0) {
+                        grid.innerHTML = ''; // Clear current
+                        renderProducts(filtered);
+                    } else {
+                        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                            <h3 class="text-secondary">No products found for "${query}"</h3>
+                            <button class="btn btn-primary" onclick="window.location.reload()" style="margin-top:1rem;">Clear Search</button>
+                        </div>`;
+                    }
+                }
+            } else {
+                // Redirect to products page with query
+                window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+            }
+        });
+    }
+
+    // Check for search param on load (for products page)
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchQuery = searchParams.get('search');
+
+    if (searchQuery && window.location.pathname.includes('products.html')) {
+        if (searchInput) searchInput.value = searchQuery;
+
+        // Wait for products to load (init call) then filter
+        // Since allProducts is sync loaded from JSON at start (or mostly), we can filter immediately after init
+        setTimeout(() => {
+            const query = searchQuery.toLowerCase();
+            const filtered = allProducts.filter(p =>
+                p.name.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query) ||
+                (p.details && Object.values(p.details).some(val => val.toLowerCase().includes(query)))
+            );
+            const grid = document.getElementById('product-grid');
+            if (grid) {
+                if (filtered.length > 0) {
+                    grid.innerHTML = '';
+                    renderProducts(filtered);
+                    // Update header text to show search context
+                    const heading = document.querySelector('.heading-lg');
+                    if (heading) heading.innerHTML = `Search Results: "${searchQuery}"`;
+                } else {
+                    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                        <h3 class="text-secondary">No products found for "${searchQuery}"</h3>
+                        <a href="products.html" class="btn btn-primary" style="margin-top:1rem;">View All</a>
+                    </div>`;
+                }
+            }
+        }, 500); // Small delay to ensure init data is ready
+    }
+
+    // Initial Render calls
     updateBadges();
     updateHeartIcons();
 });
