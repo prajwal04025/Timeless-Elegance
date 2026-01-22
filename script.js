@@ -83,12 +83,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Use Number() to safely parse both numbers and numeric strings
                 const price = Number(item.price) || 0;
                 total += price;
+
+                // Calculate original price if discount exists
+                let priceHtml = `<p class="text-gold" style="font-size:0.9rem;">₹ ${price.toLocaleString()}</p>`;
+                let discountBadge = '';
+                
+                if (item.discount > 0) {
+                     const originalPrice = Math.round(price * (100 / (100 - item.discount)));
+                     priceHtml = `
+                        <div style="display:flex; align-items:center; gap: 0.5rem;">
+                            <p class="text-gold" style="font-size:0.9rem;">₹ ${price.toLocaleString()}</p>
+                            <p style="text-decoration: line-through; color: #666; font-size: 0.8rem;">₹ ${originalPrice.toLocaleString()}</p>
+                        </div>
+                     `;
+                     discountBadge = `<span style="background: var(--accent-gold); color: #000; font-size: 0.6rem; padding: 0.1rem 0.3rem; border-radius: 3px; font-weight: bold; width: fit-content;">${item.discount}% OFF</span>`;
+                }
+
                 const html = `
                     <div class="cart-item">
                         <img src="${item.image || 'assets/images/watch1.png'}" alt="${item.name || 'Product'}">
                         <div class="cart-item-info">
                             <h4 style="font-size:1rem; margin-bottom:0.2rem;">${item.name || 'Unknown Item'}</h4>
-                            <p class="text-gold" style="font-size:0.9rem;">₹ ${price.toLocaleString()}</p>
+                            ${priceHtml}
+                            ${discountBadge}
                             <button class="remove-cart-btn" data-index="${index}" style="background:none; border:none; color:#666; font-size:0.8rem; cursor:pointer; margin-top:0.5rem; text-decoration:underline;">Remove</button>
                         </div>
                     </div>
@@ -173,8 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Use dataset for reliable price extraction (fixes NaN issue caused by selecting wrong element)
             const price = parseFloat(card.dataset.price);
             const image = card.querySelector('img').src;
+            const discount = parseFloat(card.dataset.discount) || 0;
 
-            cart.push({ name, price, image });
+            cart.push({ name, price, image, discount });
             saveCart();
             renderCart();
             updateBadges();
@@ -194,10 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.innerHTML = '<i class="far fa-heart"></i>';
             } else {
                 // Use dataset for reliable price extraction
-                const price = parseFloat(card.dataset.price);
-                const image = card.querySelector('img').src;
-                const id = parseInt(card.dataset.id);
-                wishlist.push({ id, name, price, image });
+                 const price = parseFloat(card.dataset.price);
+                 const image = card.querySelector('img').src;
+                 const id = parseInt(card.dataset.id);
+                 const discount = parseFloat(card.dataset.discount) || 0;
+                 wishlist.push({ id, name, price, image, discount });
                 btn.classList.add('active');
                 btn.innerHTML = '<i class="fas fa-heart"></i>';
             }
@@ -476,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add to cart button logic override for this instance
         const addBtn = document.getElementById('modal-add-btn');
         addBtn.onclick = () => {
-            cart.push({ name: product.name, price: Number(product.price), image: product.image });
+            cart.push({ name: product.name, price: Number(product.price), image: product.image, discount: product.discount || 0 });
             saveCart();
             renderCart();
             updateBadges();
